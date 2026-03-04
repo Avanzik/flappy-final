@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Flappy</title><script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>body{margin:0;overflow:hidden;background:#4ec0ca;font-family:sans-serif}canvas{display:block;margin:0 auto}#s{position:absolute;top:20px;width:100%;text-align:center;color:white;font-size:40px;font-weight:bold;text-shadow:2px 2px 0 #000;pointer-events:none}</style></head>
+<body><div id="s">0</div><canvas id="g"></canvas>
+<script>
+const tg=window.Telegram.WebApp;tg.expand();const c=document.getElementById('g'),ctx=c.getContext('g').getContext('2d');
+c.width=window.innerWidth;c.height=window.innerHeight;
+let b={x:50,y:c.height/2,v:0,g:0.2,j:-5},p=[],s=0,f=0;
+function draw(){ctx.clearRect(0,0,c.width,c.height);
+ctx.fillStyle='#f1c40f';ctx.beginPath();ctx.arc(b.x+20,b.y+20,20,0,Math.PI*2);ctx.fill();ctx.stroke();
+if(f++%150==0){let h=Math.random()*(c.height-300)+50;p.push({x:c.width,t:h,b:c.height-h-200})}
+p.forEach((o,i)=>{o.x-=2;ctx.fillStyle='#2ecc71';ctx.fillRect(o.x,0,60,o.t);ctx.strokeRect(o.x,0,60,o.t);
+ctx.fillRect(o.x,c.height-o.b,60,o.b);ctx.strokeRect(o.x,c.height-o.b,60,o.b);
+if(o.x==40){s++;document.getElementById('s').innerText=s}
+if(b.x+35>o.x&&b.x+5<o.x+60&&(b.y+5<o.t||b.y+35>c.height-o.b))location.reload()});
+b.v+=b.g;b.y+=b.v;if(b.y>c.height||b.y<0)location.reload();requestAnimationFrame(draw)}
+window.onclick=()=>{b.v=b.j;tg.HapticFeedback.impactOccurred('light')};draw();
+</script></body></html>
