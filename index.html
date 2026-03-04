@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Flappy</title><script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Flappy Bird</title><script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>body{margin:0;overflow:hidden;background:#4ec0ca;font-family:sans-serif}canvas{display:block;margin:0 auto}#s{position:absolute;top:20px;width:100%;text-align:center;color:white;font-size:40px;font-weight:bold;text-shadow:2px 2px 0 #000;pointer-events:none}</style></head>
 <body><div id="s">0</div><canvas id="g"></canvas>
 <script>
-const tg=window.Telegram.WebApp;tg.expand();const c=document.getElementById('g'),ctx=c.getContext('g').getContext('2d');
+const tg=window.Telegram.WebApp;tg.expand();const c=document.getElementById('g'),ctx=c.getContext('2d');
 c.width=window.innerWidth;c.height=window.innerHeight;
 let b={x:50,y:c.height/2,v:0,g:0.2,j:-5},p=[],s=0,f=0;
 function draw(){ctx.clearRect(0,0,c.width,c.height);
