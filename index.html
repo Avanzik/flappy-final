@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Flappy Ultra</title><script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>body{margin:0;overflow:hidden;background:#4ec0ca;font-family:sans-serif}canvas{display:block;margin:0 auto}#s{position:absolute;top:20px;width:100%;text-align:center;color:white;font-size:40px;font-weight:bold;text-shadow:2px 2px 0 #000;pointer-events:none}</style></head>
+<title>Flappy Fixed</title><script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body{margin:0;overflow:hidden;background:#4ec0ca;touch-action:none}
+canvas{display:block;margin:0 auto}
+#s{position:absolute;top:20px;width:100%;text-align:center;color:white;font-size:40px;font-weight:bold;text-shadow:2px 2px 0 #000;pointer-events:none;font-family:sans-serif}
+</style></head>
 <body><div id="s">0</div><canvas id="g"></canvas>
 <script>
 const tg=window.Telegram.WebApp;tg.expand();const c=document.getElementById('g'),ctx=c.getContext('2d');
 c.width=window.innerWidth;c.height=window.innerHeight;
-let b={x:50,y:c.height/2,v:0,g:0.25,j:-6},p=[],s=0,f=0;
+let b={x:50,y:c.height/2,v:0,g:0.22,j:-5.5},p=[],s=0,f=0,h=0;
 function draw(){ctx.clearRect(0,0,c.width,c.height);
-ctx.fillStyle='#f1c40f';ctx.beginPath();ctx.arc(b.x+20,b.y+20,20,0,Math.PI*2);ctx.fill();ctx.stroke();
-ctx.fillStyle='white';ctx.beginPath();ctx.arc(b.x+30,b.y+15,7,0,Math.PI*2);ctx.fill();ctx.stroke();
-ctx.fillStyle='black';ctx.beginPath();ctx.arc(b.x+32,b.y+15,3,0,Math.PI*2);ctx.fill();
-ctx.fillStyle='#e67e22';ctx.beginPath();ctx.moveTo(b.x+40,b.y+20);ctx.lineTo(b.x+55,b.y+25);ctx.lineTo(b.x+40,b.y+30);ctx.fill();ctx.stroke();
-if(f++%90==0){let h=Math.random()*(c.height-400)+50;p.push({x:c.width,t:h,b:c.height-h-210})}
-p.forEach((o,i)=>{o.x-=4.2;ctx.fillStyle='#2ecc71';ctx.fillRect(o.x,0,60,o.t);ctx.strokeRect(o.x,0,60,o.t);
+// Птица
+ctx.fillStyle='#f1c40f';ctx.beginPath();ctx.arc(b.x+20,b.y+20,18,0,Math.PI*2);ctx.fill();ctx.stroke();
+ctx.fillStyle='white';ctx.beginPath();ctx.arc(b.x+28,b.y+15,7,0,Math.PI*2);ctx.fill();ctx.stroke();
+ctx.fillStyle='black';ctx.beginPath();ctx.arc(b.x+30,b.y+15,3,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#e67e22';ctx.beginPath();ctx.moveTo(b.x+38,b.y+20);ctx.lineTo(b.x+50,b.y+25);ctx.lineTo(b.x+38,b.y+30);ctx.fill();ctx.stroke();
+// Трубы (Скорость 2.5 — теперь комфортно)
+if(f++%110==0){let hVal=Math.random()*(c.height-350)+50;p.push({x:c.width,t:hVal,b:c.height-hVal-230})}
+p.forEach((o,i)=>{o.x-=2.5;ctx.fillStyle='#2ecc71';ctx.fillRect(o.x,0,60,o.t);ctx.strokeRect(o.x,0,60,o.t);
 ctx.fillRect(o.x,c.height-o.b,60,o.b);ctx.strokeRect(o.x,c.height-o.b,60,o.b);
 if(o.x<50 && !o.passed){s++;o.passed=true;document.getElementById('s').innerText=s}
 if(b.x+35>o.x&&b.x+5<o.x+60&&(b.y+5<o.t||b.y+35>c.height-o.b))location.reload()});
 b.v+=b.g;b.y+=b.v;if(b.y>c.height||b.y<0)location.reload();requestAnimationFrame(draw)}
-window.onclick=()=>{b.v=b.j;tg.HapticFeedback.impactOccurred('light')};draw();
+// Мгновенная регистрация касания
+const jump=()=>{b.v=b.j;tg.HapticFeedback.impactOccurred('light')};
+window.addEventListener('touchstart', (e)=>{e.preventDefault();jump()},{passive:false});
+window.addEventListener('mousedown', jump);
+draw();
 </script></body></html>
-
-
